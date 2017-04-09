@@ -56,18 +56,167 @@ function startApp(){
     // fetch('http://localhost:9000/latest').then(function(data){
     //     console.log(data)
     // })
+
+    if (location.pathname.includes('politics')){
+
+        let mountPointPolitics = document.getElementById('appPolitics')
+        let containerPolitics = document.createElement('div')
+        let politicsItems = data.filter(function(item){
+            return item.tag === 'politics'
+        })
+
+        let politicsDivs = politicsItems.map(function(item){
+            return `
+                <div class="container">
+                    <h1>${item.title}</h1>
+                    <p>${item.description.substr(0, 99)}</p>
+                    <a target="_blank" href="${item.url}">click for more</a>
+                </div>`
+        })
+
+        console.log(politicsDivs.reduce(function(acc, val){
+            return acc + val
+          }, ''))
+
+        containerPolitics.innerHTML = politicsDivs.reduce(function(acc, val){
+            return acc + val
+        }, '')
+
+        mountPointPolitics.appendChild(containerPolitics)
+
+    }
+
+
+    if (location.pathname.includes('science')){
+
+      let mountPointScience = document.getElementById('appScience')
+      let containerScience = document.createElement('div')
+      let scienceItems = data.filter(function(item){
+        return item.tag === 'science'
+      })
+
+      let scienceDivs = scienceItems.map(function(item){
+        return `
+        <div class="container">
+        <h1>${item.title}</h1>
+        <p>${item.description.substr(0, 99)}</p>
+        <a target="_blank" href="${item.url}">click for more</a>
+        </div>`
+      })
+
+      console.log(scienceDivs.reduce(function(acc, val){
+        return acc + val
+      }, ''))
+
+      containerScience.innerHTML = scienceDivs.reduce(function(acc, val){
+        return acc + val
+      }, '')
+
+      mountPointScience.appendChild(containerScience)
+
+
+    }
+
+    if (location.pathname.includes('international')){
+
+      let mountPointInternational = document.getElementById('appInternational')
+      let containerInternational = document.createElement('div')
+      let internationalItems = data.filter(function(item){
+        return item.tag === 'international'
+      })
+
+      let internationalDivs = internationalItems.map(function(item){
+        return `
+        <div class="container">
+        <h1>${item.title}</h1>
+        <p>${item.description.substr(0, 99)}</p>
+        <a target="_blank" href="${item.url}">click for more</a>
+        </div>`
+      })
+
+      console.log(internationalDivs.reduce(function(acc, val){
+        return acc + val
+      }, ''))
+
+      containerInternational.innerHTML = internationalDivs.reduce(function(acc, val){
+        return acc + val
+      }, '')
+
+      mountPointInternational.appendChild(containerInternational)
+
+
+    }
+
+    if (location.pathname.includes('art')){
+
+      let mountPointArt = document.getElementById('appArt')
+      let containerArt = document.createElement('div')
+      let artItems = data.filter(function(item){
+        return item.tag === 'art'
+      })
+
+      let artDivs = artItems.map(function(item){
+        return `
+        <div class="container">
+        <h1>${item.title}</h1>
+        <p>${item.description.substr(0, 99)}</p>
+        <a target="_blank" href="${item.url}">click for more</a>
+        </div>`
+      })
+
+      console.log(artDivs.reduce(function(acc, val){
+        return acc + val
+      }, ''))
+
+      containerArt.innerHTML = artDivs.reduce(function(acc, val){
+        return acc + val
+      }, '')
+
+      mountPointArt.appendChild(containerArt)
+
+
+    }
+
+    if (location.pathname.includes('sports')){
+
+      let mountPointSports = document.getElementById('appSports')
+      let containerSports = document.createElement('div')
+      let sportsItems = data.filter(function(item){
+        return item.tag === 'sports'
+      })
+
+      let sportsDivs = sportsItems.map(function(item){
+        return `
+        <div class="container">
+        <h1>${item.title}</h1>
+        <p>${item.description.substr(0, 99)}</p>
+        <a target="_blank" href="${item.url}">click for more</a>
+        </div>`
+      })
+
+      console.log(sportsDivs.reduce(function(acc, val){
+        return acc + val
+      }, ''))
+
+      containerSports.innerHTML = sportsDivs.reduce(function(acc, val){
+        return acc + val
+      }, '')
+
+      mountPointSports.appendChild(containerSports)
+
+
+    }
+
+
     let mountPoint = document.getElementById('app')
-    let mountPointPolitics = document.getElementById('appPolitics')
     let container = document.createElement('div')
-    let containerPolitics = document.createElement('div')
+
 
 
     // Read up on REDUCE, MAP, FILTER
 
 
-    let politicsItems = data.filter(function(item){
-        return item.tag === 'politics'
-    })
+
 
 
     // You could map DATA instead
@@ -76,20 +225,13 @@ function startApp(){
             <div class="container">
                 <h1>${item.title}</h1>
                 <p>${item.description.substr(0, 99)}</p>
-                <a target="_blank" href="${item.url}">click for more</a>
-            </div>`
-    })
-    let politicsDivs = politicsItems.map(function(item){
-        return `
-            <div class="container">
-                <h1>${item.title}</h1>
-                <p>${item.description.substr(0, 99)}</p>
-                <a target="_blank" href="${item.url}">click for more</a>
+                 <a target="_blank" href="${item.url}">click for more</a>
             </div>`
     })
 
 
-    
+
+    /*
     // You could do something like this:
     // This checks the URL for politics and renders page based on that
     if(location.pathname.includes('politics')){
@@ -101,27 +243,23 @@ function startApp(){
 
     }
 
-
+*/
     console.log(allDivs.reduce(function(acc, val){
         return acc + val
     }, ''))
 
 
-    console.log(politicsDivs.reduce(function(acc, val){
-        return acc + val
-      }, ''))
+
 
 
     container.innerHTML = allDivs.reduce(function(acc, val){
         return acc + val
     }, '')
     console.log('hello')
-    containerPolitics.innerHTML = politicsDivs.reduce(function(acc, val){
-        return acc + val
-    }, '')
+
 
     mountPoint.appendChild(container)
-    mountPointPolitics.appendChild(containerPolitics)
+
 
   }
 
