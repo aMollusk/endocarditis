@@ -89,6 +89,18 @@ function startApp(){
     })
 
 
+    
+    // You could do something like this:
+    // This checks the URL for politics and renders page based on that
+    if(location.pathname.includes('politics')){
+      mountPoint = document.getElementById('appPolitics')
+      // Do Politic specific stuff here
+    }
+    if(location.pathname.includes('aDifferentAddress')){
+      mountPoint = document.getElementById('aDifferentDiv')
+
+    }
+
 
     console.log(allDivs.reduce(function(acc, val){
         return acc + val
@@ -103,7 +115,7 @@ function startApp(){
     container.innerHTML = allDivs.reduce(function(acc, val){
         return acc + val
     }, '')
-
+    console.log('hello')
     containerPolitics.innerHTML = politicsDivs.reduce(function(acc, val){
         return acc + val
     }, '')
