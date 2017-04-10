@@ -32,22 +32,28 @@ db.once('open', function(){
 // Only the bits that are relevant will run. Think of it like a giant switch statement.
 function appStart(){
 
-    // This is the main route
-    // Basically we're saying, no matter what the put after the first slash
-    // only send them this index.html file
-    app.get('/*', function(request, response){
-        response.sendFile('/index.html')
-    })
-
-    // This will override the previous statement. This is how we will get our data
+    // This will override the '*' statement at the bottom. This is how we will get our data
     app.post('/api/save', function(req, res){
         console.log('we got some data', req.body)
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify(req.body))
     })
 
+    // This will also override it.
     app.get('/api/posts', function(req, res){
         res.send(JSON.stringify('hello'))
+    })
+
+    // and this. Nevermind this. This is for me.
+    app.get('/apiTest', function(request, response){
+        response.sendFile(clientPath + '/apiTest.html')
+    })
+
+    // This is the main route
+    // Basically we're saying, no matter what the put after the first slash
+    // we should get this index.html file
+    app.get('*', function(request, response){
+        response.sendFile(clientPath + '/index.html')
     })
 
     // Finally, we tell the app to listen for any requests on port 3000.
@@ -55,10 +61,6 @@ function appStart(){
         console.log('listening')
     })  
 }
-
-
-
-
 
 function savePost(post){
     var newPost = new Post(Object.assign({}, post, {date: new Date()}))

@@ -3,3 +3,5 @@ var Router = {
     routes: [],
     history: []
 }
+
+
