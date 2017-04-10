@@ -35,6 +35,6 @@ app.get('/jose', function(request, response){
 
 
 
-app.listen(9000, function(){
+app.listen(3000, function(){
     console.log('listening')
 })  

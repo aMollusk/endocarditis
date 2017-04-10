@@ -4,11 +4,13 @@
   "description": "A thing for news sharing",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "database": "sudo mongod --dbpath=./data --port 27017",
+    "start": "node server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "mongodb": "^2.2.25"
   }
 }
