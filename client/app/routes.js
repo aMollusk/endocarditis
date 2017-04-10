@@ -1,0 +1,5 @@
+
+var Router = {
+    routes: [],
+    history: []
+}

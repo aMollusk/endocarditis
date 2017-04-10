@@ -1,0 +1,34 @@
+
+/* NAVIGATION BAR */
+
+.navbar {
+    margin-bottom: 0;
+    background-color: #66e0ff;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px;
+    line-height: 1.42857143;
+    letter-spacing: 4px;
+    border-radius: 0;
+}
+
+.navbar li a, .navbar .navbar-brand {
+    color:  #006699;
+;
+}
+
+.navbar-nav li a:hover, .navbar-nav li.active a {
+    color: red;
+    background-color: blue;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: transparent;
+    color:  #006699;
+;
+}
+
+
+#app, #appPolitics, #appScience, #appInternational, #appArt, #appSports {
+  margin-top: 50px;
+}

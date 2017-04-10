@@ -1,44 +1,71 @@
 var express = require('express')
 var app = express();
-
 var mongoose = require('mongoose');
 var Post = require('./models/post')
-
+var bodyParser = require('body-parser')
+var path = require('path')
 mongoose.connect('mongodb://localhost:27017');
-
 var db = mongoose.connection
+
+// The path of this directory is ./endocarditis/server
+// But all of the client side stuff lives in ./endocarditis/client
+// So to solve this we set the STATIC file path to the latter
+var clientPath = path.resolve(__dirname, '..', 'client')
+app.use('/', express.static(clientPath))
+
+
+// This is shortcut to help our server understand JSON. 
+// If we didn't do this we'd have to read the file as it came in bit by bit. It sucks
+app.use(bodyParser.json());
+
+
+
+// If the script can't find our database, we leave an error
 db.on('error', console.error.bind(console, 'connection error:'))
+
+// Once the script connects to the database, start the server
 db.once('open', function(){
     appStart()
 })
 
-
-
+// Everytime someone request any page on our server, this function will run line by line.
+// Only the bits that are relevant will run. Think of it like a giant switch statement.
 function appStart(){
 
-    var newDetails = {
-        title: "Here is the first post ever",
-        content: "Here is the content of the post. Hooray.",
-        author: "Kieran McDonald",
-        date: new Date()
-    }
-    var newPost = new Post(newDetails)
-
-    newPost.save(function(err, post){
-        if(err) return console.error(err)
-        console.log(post)
+    // This is the main route
+    // Basically we're saying, no matter what the put after the first slash
+    // only send them this index.html file
+    app.get('/*', function(request, response){
+        response.sendFile('/index.html')
     })
 
-    app.get('/', function(request, response){
-        console.log(request)
-        response.send('<h1>hello</h1>')
+    // This will override the previous statement. This is how we will get our data
+    app.post('/api/save', function(req, res){
+        console.log('we got some data', req.body)
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(req.body))
     })
 
-    app.get('/jose', function(request, response){
-        response.send('hi there')
+    app.get('/api/posts', function(req, res){
+        res.send(JSON.stringify('hello'))
     })
 
-    app.listen(4000, function(){
+    // Finally, we tell the app to listen for any requests on port 3000.
+    app.listen(3000, function(){
         console.log('listening')
     })  
+}
+
+
+
+
+
+function savePost(post){
+    var newPost = new Post(Object.assign({}, post, {date: new Date()}))
+    newPost.save(function(err, res){
+        if(err){
+            console.error(`There's an error with mongo I think: `)
+        }
+        console.log(res)
+    })
 }
