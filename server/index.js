@@ -42,9 +42,10 @@ function appStart(){
     })
 
     // This will also override it.
-    app.get('/api/posts/', function(req, res){
+    app.get('/api/posts', function(req, res){
+        res.setHeader('Content-Type', 'application/json');
         Post.find(function(err, result){
-            res.send(JSON.stringiy(result))
+            res.send(JSON.stringify(result))
         })
     })
 
