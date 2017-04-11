@@ -33,18 +33,22 @@ db.once('open', function(){
 function appStart(){
 
     // This will override the '*' statement at the bottom. This is how we will get our data
-    app.post('/api/save', function(req, res){
-        console.log('we got some data', req.body)
+    app.post('/api/save', function(req, res){        
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(req.body))
+        savePost(req.body, function(msg){
+            console.log(msg)
+            res.send(JSON.stringify(Object.assign({}, {status: 'success'}, msg)))
+        })
     })
 
     // This will also override it.
-    app.get('/api/posts', function(req, res){
-        res.send(JSON.stringify('hello'))
+    app.get('/api/posts/', function(req, res){
+        Post.find(function(err, result){
+            res.send(JSON.stringiy(result))
+        })
     })
 
-    // and this. Nevermind this. This is for me.
+    // And this. Nevermind this. This is for me.
     app.get('/apiTest', function(request, response){
         response.sendFile(clientPath + '/apiTest.html')
     })
@@ -62,12 +66,18 @@ function appStart(){
     })  
 }
 
-function savePost(post){
+
+// This is a helper
+function savePost(post, callback){
     var newPost = new Post(Object.assign({}, post, {date: new Date()}))
     newPost.save(function(err, res){
         if(err){
             console.error(`There's an error with mongo I think: `)
         }
-        console.log(res)
+        callback(res._doc)
     })
 }
+
+// function retrievePost(post, callback){
+
+// }
