@@ -15,6 +15,8 @@
             var payload = {
                 title: "here is a new post",
                 content: "Lots of new content for this new post yay. Go us.",
+                tag: "Science",
+                fdasdsa: "fadsfsad",
                 author: 'Kieran Motherfucking mcdonald'
             }
 
@@ -31,6 +33,15 @@
                         },
                     }).then(function(data){
                 return data.json()
+            }).then(function(response){
+                console.log(response)
+            })
+        }
+
+        function getPosts(){
+            fetch('/api/posts', {method: 'get'}).then(function(response){
+                console.log(response)
+                return response.json()
             }).then(function(response){
                 console.log(response)
             })

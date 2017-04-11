@@ -13,12 +13,9 @@ var db = mongoose.connection
 var clientPath = path.resolve(__dirname, '..', 'client')
 app.use('/', express.static(clientPath))
 
-
 // This is shortcut to help our server understand JSON. 
 // If we didn't do this we'd have to read the file as it came in bit by bit. It sucks
 app.use(bodyParser.json());
-
-
 
 // If the script can't find our database, we leave an error
 db.on('error', console.error.bind(console, 'connection error:'))
