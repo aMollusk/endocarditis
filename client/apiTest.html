@@ -6,46 +6,54 @@
         <h1>Here is a file!</h1>
 
         <button onclick="postData()">Post data</button>
-        <button onclick="getPosts()">Get data</button>
+        <button onclick="getData()">Get data</button>
         
     </body>
     <script>
+        // function to bind to the button above
         function postData(){
 
-            var payload = {
-                title: "here is a new post",
-                content: "Lots of new content for this new post yay. Go us.",
-                tag: "Science",
-                fdasdsa: "fadsfsad",
-                author: 'Kieran Motherfucking mcdonald'
+            // This would usually come from a form. For now, lets just define it
+            // as an object
+            var formData = {
+                title: 'Post Title',
+                content: 'Here is a cool post!',
+                author: 'Kieran motherfucking mcdonald',
+                tag: 'Science'
             }
 
-            var data = new FormData();
-            data.append( "json", JSON.stringify( payload ) );
+            // Do some reading on FETCH - https://davidwalsh.name/fetch
 
-            fetch('/api/save', 
-                    { 
-                        method: 'POST', 
-                        body: JSON.stringify(payload),
-                        headers: {
-                            'Accept': 'application/json, text/plain, */*',
-                            'Content-Type': 'application/json'
-                        },
-                    }).then(function(data){
+            // it's easy though.
+            // Set method in the options. Don't worry about HEADERS.
+            // Body just needs to be a string, so we stringify our formData
+            fetch('/api/save', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData),
+            }).then(function(data){
+                // After the initial request we get this response.
+                // This comes in bit by bit so we use .json to wait for it to finish and RETURN it
                 return data.json()
-            }).then(function(response){
-                console.log(response)
+            }).then(function(data){
+                // After the bit by bit process happens we log the data
+                console.log(data)
             })
-        }
+    }
 
-        function getPosts(){
-            fetch('/api/posts', {method: 'get'}).then(function(response){
-                console.log(response)
-                return response.json()
-            }).then(function(response){
-                console.log(response)
-            })
-        }
+
+    // Same shit here except we're using GET. 
+    function getData(){
+        fetch('/api/posts', {method: 'GET'}).then(function(data){
+            return data.json()
+        }).then(function(data){
+            console.log(data)
+        })
+    }
+        
 
 
     </script>

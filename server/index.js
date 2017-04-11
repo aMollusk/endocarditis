@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Post = require('./models/post')
 var bodyParser = require('body-parser')
 var path = require('path')
+
 mongoose.connect('mongodb://localhost:27017');
 var db = mongoose.connection
 
@@ -42,6 +43,7 @@ function appStart(){
     app.get('/api/posts', function(req, res){
         res.setHeader('Content-Type', 'application/json');
         Post.find(function(err, result){
+            console.log(result)
             res.send(JSON.stringify(result))
         })
     })
@@ -55,6 +57,7 @@ function appStart(){
     // Basically we're saying, no matter what the put after the first slash
     // we should get this index.html file
     app.get('*', function(request, response){
+        console.log(request.path)
         response.sendFile(clientPath + '/index.html')
     })
 
@@ -72,7 +75,7 @@ function savePost(post, callback){
         if(err){
             console.error(`There's an error with mongo I think: `)
         }
-        callback(res._doc)
+        callback(res)
     })
 }
 
