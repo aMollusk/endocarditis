@@ -5,7 +5,8 @@ var Post = require('./models/post')
 var bodyParser = require('body-parser')
 var path = require('path')
 
-mongoose.connect('mongodb://localhost:27017');
+mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
+mongoose.connect(mongoLoc);
 var db = mongoose.connection
 
 // The path of this directory is ./endocarditis/server
