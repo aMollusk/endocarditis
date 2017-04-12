@@ -9,6 +9,9 @@ mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017'
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
 
+app.set('port', (process.env.PORT || 3000));
+
+
 // The path of this directory is ./endocarditis/server
 // But all of the client side stuff lives in ./endocarditis/client
 // So to solve this we set the STATIC file path to the latter
@@ -63,7 +66,7 @@ function appStart(){
     })
 
     // Finally, we tell the app to listen for any requests on port 3000.
-    app.listen(3000, function(){
+    app.listen(app.get('port'), function(){
         console.log('listening')
     })  
 }
