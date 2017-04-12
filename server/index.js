@@ -6,6 +6,9 @@ var bodyParser = require('body-parser')
 var path = require('path')
 
 mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
+
+var mongoLoc = require('../env.js')
+
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
 
