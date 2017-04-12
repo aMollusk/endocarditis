@@ -4,9 +4,8 @@ var mongoose = require('mongoose');
 var Post = require('./models/post')
 var bodyParser = require('body-parser')
 var path = require('path')
-var mongoEnv = require('../env.js') || ''
 
-mongoLoc = process.env.MONGODB_URI || mongoEnv 
+mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
 
