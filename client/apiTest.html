@@ -5,11 +5,55 @@
     <body>
         <h1>Here is a file!</h1>
 
-        <button onclick="postData()">Post data</button>
-        <button onclick="getData()">Get data</button>
-        
+        <!--<button onclick="postData()">Post data</button>
+        <button onclick="getData()">Get data</button>-->
+
+        <form method="post" id="test">
+            title: <input type="text" name="title" /><br />
+            author: <input type="text" name="author" /><br />
+            content: <textarea type="text" name="content"></textarea><br />
+            tag: <input type="text" name="tag" /><br />
+            url: <input type="text" name="url" /><br />
+            <input type="submit" value="save" /><br />
+        </form>
     </body>
     <script>
+
+        // I want to hijack the default behaviour of the HTML form. 
+        // We do this by listening for the SUBMIT event.
+        document.getElementById('test').addEventListener('submit', function(event){
+            // We then prevent the default
+            event.preventDefault()
+
+            // We use this cool new FormData thing. I've only just learned it myself...
+            var thing = new FormData(event.target)
+
+            // We build an object. This is complicated. We'll run through this later.
+            var myObj = {}
+            for(let x of thing.entries()){
+                myObj = Object.assign({}, myObj, {
+                    [x[0]]: x[1]
+                })
+            }
+            
+            // We post the data :)
+            fetch('/api/save', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(myObj),
+            }).then(function(data){
+                // After the initial request we get this response.
+                // This comes in bit by bit so we use .json to wait for it to finish and RETURN it
+                return data.json()
+            }).then(function(data){
+                // After the bit by bit process happens we log the data
+                console.log(data)
+            })
+        })
+        
         // function to bind to the button above
         function postData(){
 
@@ -19,7 +63,8 @@
                 title: 'Post Title',
                 content: 'Here is a cool post!',
                 author: 'Kieran motherfucking mcdonald',
-                tag: 'Science'
+                tag: 'Science',
+                url: 'http://google.com'
             }
 
             // Do some reading on FETCH - https://davidwalsh.name/fetch

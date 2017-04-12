@@ -5,6 +5,7 @@ var postSchema = mongoose.Schema({
     content: String,
     author: String,
     tag: String,
+    url: String,
     date: Date
 })
 
