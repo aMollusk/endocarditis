@@ -2,12 +2,13 @@ var express = require('express')
 var app = express();
 var mongoose = require('mongoose');
 var Post = require('./models/post')
+var UserAccount = require('./models/user')
 var bodyParser = require('body-parser')
 var path = require('path')
 
 mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
 
-// var mongoLoc = require('../env.js')
+var mongoLoc = require('../env.js')
 
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
@@ -41,16 +42,36 @@ function appStart(){
     app.post('/api/save', function(req, res){        
         res.setHeader('Content-Type', 'application/json');
         savePost(req.body, function(msg){
-            console.log(msg)
             res.send(JSON.stringify(Object.assign({}, {status: 'success'}, msg)))
         })
+    })
+
+    app.use(function(req,res,next){
+        var user = {
+            username: 'Kieran',
+            firstname: 'Kieran',
+            lastname: 'McDonald',
+            email: 'Kieran.mcdonald.sg@gmail.com',
+            passwordHash: 'poo',
+            salt: 0,
+            accountInfo: {
+                description: 'Im a very cool guy',
+                imgUrl: 'https://www.google.com.au/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiF4omEvaDTAhUGKJQKHZvyBk4QjRwIBw&url=http%3A%2F%2Fcollegeismylife.com%2Fcmlstaff%2Fcast-arrested-development-vote%2F&psig=AFQjCNFruxjpycfacKAGsIvqDK5cQ-lcTw&ust=1492140057424880'
+            },
+            dob: new Date(),
+            date: new Date()
+        }
+        var saveThing = new UserAccount(user)
+        saveThing.save(function(err, msg){
+            console.log(msg)
+        })
+        next()
     })
 
     // This will also override it.
     app.get('/api/posts', function(req, res){
         res.setHeader('Content-Type', 'application/json');
         Post.find(function(err, result){
-            console.log(result)
             res.send(JSON.stringify(result))
         })
     })
@@ -64,7 +85,6 @@ function appStart(){
     // Basically we're saying, no matter what the put after the first slash
     // we should get this index.html file
     app.get('*', function(request, response){
-        console.log(request.path)
         response.sendFile(clientPath + '/index.html')
     })
 
