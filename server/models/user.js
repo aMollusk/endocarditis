@@ -1,18 +1,38 @@
 var mongoose = require('mongoose')
 
+// Unique fields not packages by default
+var uniqueValidator = require('mongoose-unique-validator');
+
+
 var userAccountSchema = mongoose.Schema({
-    username: String,
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
     firstname: String,
     lastname: String,
-    email: String,
-    passwordHash: String,
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    passwordHash: {
+        type: Number,
+        required: true
+    },
     salt: Number,
     accountInfo: {
         description: String,
         imgUrl: String
     },
-    dob: Date,
-    date: Date
+    date: {
+        type: Date,
+        required: true
+
+    }
 })
+
+userAccountSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model('UserAccount', userAccountSchema)

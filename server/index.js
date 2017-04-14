@@ -6,8 +6,9 @@ var UserAccount = require('./models/user')
 var bodyParser = require('body-parser')
 var path = require('path')
 
-mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
+var apiRoutes = require('./routes/api')
 
+mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
 var mongoLoc = require('../env.js')
 
 mongoose.connect(mongoLoc);
@@ -34,9 +35,15 @@ db.once('open', function(){
     appStart()
 })
 
+
+
+
+
 // Everytime someone request any page on our server, this function will run line by line.
 // Only the bits that are relevant will run. Think of it like a giant switch statement.
 function appStart(){
+
+    app.use('/api', apiRoutes)
 
     // This will override the '*' statement at the bottom. This is how we will get our data
     app.post('/api/save', function(req, res){        
@@ -46,27 +53,6 @@ function appStart(){
         })
     })
 
-    app.use(function(req,res,next){
-        var user = {
-            username: 'Kieran',
-            firstname: 'Kieran',
-            lastname: 'McDonald',
-            email: 'Kieran.mcdonald.sg@gmail.com',
-            passwordHash: 'poo',
-            salt: 0,
-            accountInfo: {
-                description: 'Im a very cool guy',
-                imgUrl: 'https://www.google.com.au/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiF4omEvaDTAhUGKJQKHZvyBk4QjRwIBw&url=http%3A%2F%2Fcollegeismylife.com%2Fcmlstaff%2Fcast-arrested-development-vote%2F&psig=AFQjCNFruxjpycfacKAGsIvqDK5cQ-lcTw&ust=1492140057424880'
-            },
-            dob: new Date(),
-            date: new Date()
-        }
-        var saveThing = new UserAccount(user)
-        saveThing.save(function(err, msg){
-            console.log(msg)
-        })
-        next()
-    })
 
     // This will also override it.
     app.get('/api/posts', function(req, res){
