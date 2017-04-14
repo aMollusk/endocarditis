@@ -1,5 +1,5 @@
 var bcrypt = require('bcrypt')
-const saltRounds = 9
+var saltRounds = 9
 
 
 module.exports = {

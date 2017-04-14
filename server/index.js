@@ -6,7 +6,7 @@ var UserAccount = require('./models/user')
 var bodyParser = require('body-parser')
 var path = require('path')
 
-var apiRoutes = require('./routes/api')
+var apiRoutes = require('./routes/api/index')
 
 mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
 // var mongoLoc = require('../env.js')
