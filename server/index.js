@@ -2,18 +2,19 @@ var express = require('express')
 var app = express();
 var mongoose = require('mongoose');
 var Post = require('./models/post')
+var UserAccount = require('./models/user')
 var bodyParser = require('body-parser')
 var path = require('path')
 
-mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
+var apiRoutes = require('./routes/api')
 
+mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
 // var mongoLoc = require('../env.js')
 
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
 
 app.set('port', (process.env.PORT || 3000));
-
 
 // The path of this directory is ./endocarditis/server
 // But all of the client side stuff lives in ./endocarditis/client
@@ -37,20 +38,21 @@ db.once('open', function(){
 // Only the bits that are relevant will run. Think of it like a giant switch statement.
 function appStart(){
 
+    app.use('/api', apiRoutes)
+
     // This will override the '*' statement at the bottom. This is how we will get our data
     app.post('/api/save', function(req, res){        
         res.setHeader('Content-Type', 'application/json');
         savePost(req.body, function(msg){
-            console.log(msg)
             res.send(JSON.stringify(Object.assign({}, {status: 'success'}, msg)))
         })
     })
+
 
     // This will also override it.
     app.get('/api/posts', function(req, res){
         res.setHeader('Content-Type', 'application/json');
         Post.find(function(err, result){
-            console.log(result)
             res.send(JSON.stringify(result))
         })
     })
@@ -64,7 +66,6 @@ function appStart(){
     // Basically we're saying, no matter what the put after the first slash
     // we should get this index.html file
     app.get('*', function(request, response){
-        console.log(request.path)
         response.sendFile(clientPath + '/index.html')
     })
 
@@ -73,7 +74,6 @@ function appStart(){
         console.log('listening')
     })  
 }
-
 
 // This is a helper
 function savePost(post, callback){
@@ -85,7 +85,3 @@ function savePost(post, callback){
         callback(res)
     })
 }
-
-// function retrievePost(post, callback){
-
-// }
