@@ -9,7 +9,7 @@ var path = require('path')
 var apiRoutes = require('./routes/api')
 
 mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
-var mongoLoc = require('../env.js')
+// var mongoLoc = require('../env.js')
 
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
