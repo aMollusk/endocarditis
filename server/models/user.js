@@ -17,11 +17,10 @@ var userAccountSchema = mongoose.Schema({
         required: true,
         unique: true
     },
-    passwordHash: {
-        type: Number,
+    password: {
+        type: String,
         required: true
     },
-    salt: Number,
     accountInfo: {
         description: String,
         imgUrl: String
@@ -29,7 +28,6 @@ var userAccountSchema = mongoose.Schema({
     date: {
         type: Date,
         required: true
-
     }
 })
 

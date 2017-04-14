@@ -85,7 +85,7 @@
                 })
             }
 
-            fetch('/api/register', {method: 'post', body: JSON.stringify(myObj), headers: JSONHeaders}).then(function(data){
+            fetch('/api/account/register', {method: 'post', body: JSON.stringify(myObj), headers: JSONHeaders}).then(function(data){
                 return data.json()
             }).then(function(data){
                 console.log(data)
@@ -105,7 +105,7 @@
                 })
             }
 
-            fetch('/api/login', {method: 'post', body: JSON.stringify(myObj), headers: JSONHeaders}).then(function(data){
+            fetch('/api/account/login', {method: 'post', body: JSON.stringify(myObj), headers: JSONHeaders}).then(function(data){
                 return data.json()
             }).then(function(data){
                 console.log(data)

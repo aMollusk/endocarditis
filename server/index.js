@@ -16,7 +16,6 @@ var db = mongoose.connection
 
 app.set('port', (process.env.PORT || 3000));
 
-
 // The path of this directory is ./endocarditis/server
 // But all of the client side stuff lives in ./endocarditis/client
 // So to solve this we set the STATIC file path to the latter
@@ -34,10 +33,6 @@ db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function(){
     appStart()
 })
-
-
-
-
 
 // Everytime someone request any page on our server, this function will run line by line.
 // Only the bits that are relevant will run. Think of it like a giant switch statement.
@@ -80,7 +75,6 @@ function appStart(){
     })  
 }
 
-
 // This is a helper
 function savePost(post, callback){
     var newPost = new Post(Object.assign({}, post, {date: new Date()}))
@@ -91,7 +85,3 @@ function savePost(post, callback){
         callback(res)
     })
 }
-
-// function retrievePost(post, callback){
-
-// }
