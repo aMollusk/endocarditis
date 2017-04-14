@@ -13,6 +13,7 @@
     "bcrypt": "^1.0.2",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "mongodb": "^2.2.25",
     "mongoose": "^4.9.4",
     "mongoose-unique-validator": "^1.0.5",

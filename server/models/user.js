@@ -3,7 +3,6 @@ var mongoose = require('mongoose')
 // Unique fields not packages by default
 var uniqueValidator = require('mongoose-unique-validator');
 
-
 var userAccountSchema = mongoose.Schema({
     username: {
         type: String,
