@@ -9,7 +9,7 @@ var path = require('path')
 var apiRoutes = require('./routes/api/index')
 
 mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
-// var mongoLoc = require('../env.js')
+var mongoLoc = require('../env.js')
 
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
@@ -49,7 +49,7 @@ function appStart(){
     })
 
 
-    // This will also override it.
+    // This is how we get posts from the database
     app.get('/api/posts', function(req, res){
         res.setHeader('Content-Type', 'application/json');
         Post.find(function(err, result){
