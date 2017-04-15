@@ -31,3 +31,7 @@
 #app, #appPolitics, #appScience, #appInternational, #appArt, #appSports {
   margin-top: 50px;
 }
+
+.blueMe {
+  color: blue;
+}
