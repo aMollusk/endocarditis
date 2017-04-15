@@ -1,7 +1,7 @@
 var router = require('express').Router()
 var UserAccount = require('../../models/user')
 var hash = require('../../helpers/hash')
-
+var session = require('express-session');
 
 router.post('/register', function(req,res){
     res.setHeader('Content-Type', 'application/json');
@@ -26,19 +26,22 @@ router.post('/register', function(req,res){
 })
 
 router.post('/login', (req, res) => {
+    console.log(req.session)
     res.setHeader('Content-Type', 'application/json');
-
     UserAccount.findOne({username: req.body.username}, function(err, msg){
         if(err || msg === null){
             console.log('no user found')
             res.send({status: 200, authenticated: false, msg: 'no user found'})
             return 0
         }
-        console.log(msg)
+        // console.log(msg)
         hash.check(req.body.password, msg.password, function(){
             hash.check(req.body.password, msg.password, function(err, authed){
                 if(authed){
+                    sess.username = 'dfsdfsdsdf'
+                    console.log('hello!')
                     res.send({status: 200, authenticated: true})
+                    res.end()
                 } else {
                     res.send({status: 200, authenticated: false})
                 }

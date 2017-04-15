@@ -5,17 +5,20 @@ var Post = require('./models/post')
 var UserAccount = require('./models/user')
 var bodyParser = require('body-parser')
 var path = require('path')
+var session = require('express-session');
 
 var apiRoutes = require('./routes/api/index')
 
 mongoLoc = process.env.MONGODB_URI || 'mongodb://localhost:27017' 
-// var mongoLoc = require('../env.js')
+var mongoLoc = require('../env.js')
 
 mongoose.connect(mongoLoc);
 var db = mongoose.connection
 
 app.set('port', (process.env.PORT || 3000));
 
+
+var sess    
 // The path of this directory is ./endocarditis/server
 // But all of the client side stuff lives in ./endocarditis/client
 // So to solve this we set the STATIC file path to the latter
@@ -38,7 +41,20 @@ db.once('open', function(){
 // Only the bits that are relevant will run. Think of it like a giant switch statement.
 function appStart(){
 
-    app.use('/api', apiRoutes)
+    app.use(session({
+        secret: 'boop',
+        id: 'test',
+        resave: false,
+        saveUninitialized: false,
+        cookie: { maxAge: 60000 }
+    }))
+
+    app.use(function(req,res,next){
+        console.log(req.session.email)
+        next()
+    })
+
+
 
     // This will override the '*' statement at the bottom. This is how we will get our data
     app.post('/api/save', function(req, res){        
@@ -47,7 +63,6 @@ function appStart(){
             res.send(JSON.stringify(Object.assign({}, {status: 'success'}, msg)))
         })
     })
-
 
     // This will also override it.
     app.get('/api/posts', function(req, res){
@@ -59,13 +74,18 @@ function appStart(){
 
     // And this. Nevermind this. This is for me.
     app.get('/apiTest', function(request, response){
+        var sess = request.session
+        if(!sess.email)
+            sess.email = "testdsd"
         response.sendFile(clientPath + '/apiTest.html')
     })
+    app.use('/api', apiRoutes)
 
     // This is the main route
     // Basically we're saying, no matter what the put after the first slash
     // we should get this index.html file
     app.get('*', function(request, response){
+        sess = request.session
         response.sendFile(clientPath + '/index.html')
     })
 
